@@ -1,4 +1,4 @@
-#Dama italiana [![CI/CD](https://github.com/softeng2021-inf-uniba/progetto2021ter-vijayashanker/actions/workflows/ingsw2021.yml/badge.svg)](https://github.com/softeng2021-inf-uniba/progetto2021ter-vijayashanker/actions/workflows/ingsw2021.yml) [![Coverage Status](https://coveralls.io/repos/github/softeng2021-inf-uniba/progetto2021ter-vijayashanker/badge.svg?t=aUA7xi&service=github)](https://coveralls.io/github/softeng2021-inf-uniba/progetto2021ter-vijayashanker)
+# Dama italiana [![CI/CD](https://github.com/softeng2021-inf-uniba/progetto2021ter-vijayashanker/actions/workflows/ingsw2021.yml/badge.svg)](https://github.com/softeng2021-inf-uniba/progetto2021ter-vijayashanker/actions/workflows/ingsw2021.yml) [![Coverage Status](https://coveralls.io/repos/github/softeng2021-inf-uniba/progetto2021ter-vijayashanker/badge.svg?t=aUA7xi&service=github)](https://coveralls.io/github/softeng2021-inf-uniba/progetto2021ter-vijayashanker)
 
 Implementazione del gioco della Dama in Java svolto durante il corso di Ingegneria del Software presso l'università degli Studi di Bari.
 
