@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AppMain.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dama</a> &gt; <a href="index.source.html" class="el_package">it.uniba.main</a> &gt; <span class="el_source">AppMain.java</span></div><h1>AppMain.java</h1><pre class="source lang-java linenums">package it.uniba.main;
+
+import it.uniba.main.Costanti.Comandi;
+import it.uniba.main.Dama.Gioco;
+import it.uniba.main.InterfacciaUtente.ComunicazioneEsterna;
+import it.uniba.main.InterfacciaUtente.LettoreComandi;
+
+/**
+ * &lt;&lt;Control&gt;&gt;
+ * The main class for the project. It must be customized to meet the project
+ * assignment specifications.
+ *
+ * &lt;b&gt;DO NOT RENAME&lt;/b&gt;
+ */
+public final class AppMain {
+
+	/**
+	 * Private constructor. Change if needed.
+	 */
+	private AppMain() {
+
+	}
+
+	/**
+	 * 	 * This is the main entry of the application.
+	 *
+	 * @param args The command-line arguments.
+	 */
+	public static void main(final String[] args) {
+
+<span class="nc" id="L31">		int flagUscita = 0;</span>
+<span class="nc" id="L32">		ComunicazioneEsterna.currentWorkingDir();</span>
+
+<span class="nc bnc" id="L34" title="All 2 branches missed.">		if (args.length &gt; 0) {</span>
+<span class="nc bnc" id="L35" title="All 3 branches missed.">			switch (args[0]) {</span>
+
+				case &quot;--help&quot;:
+<span class="nc" id="L38">					ComunicazioneEsterna.help();</span>
+<span class="nc" id="L39">					break;</span>
+
+				case &quot;-h&quot;:
+<span class="nc" id="L42">					ComunicazioneEsterna.help();</span>
+<span class="nc" id="L43">					break;</span>
+
+				default:
+<span class="nc" id="L46">					ComunicazioneEsterna.erroreFlag();</span>
+<span class="nc" id="L47">					ComunicazioneEsterna.benvenuto();</span>
+<span class="nc" id="L48">					break;</span>
+			}
+		} else {
+<span class="nc" id="L51">			ComunicazioneEsterna.benvenuto();</span>
+		}
+
+		String comando;
+		//menÃ¹ principale
+<span class="nc bnc" id="L56" title="All 2 branches missed.">		while (flagUscita != -1) {</span>
+<span class="nc" id="L57">			comando = LettoreComandi.getComando();</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">			if (comando.compareTo(Comandi.HELP) == 0) {</span>
+<span class="nc" id="L59">				ComunicazioneEsterna.help();</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">			} else if (comando.compareTo(Comandi.GIOCA) == 0) {</span>
+<span class="nc" id="L61">				ComunicazioneEsterna.avvioPartita();</span>
+<span class="nc" id="L62">				Gioco g = new Gioco();</span>
+<span class="nc" id="L63">				flagUscita = 0;</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">				while (flagUscita == 0) { //continua fino ad un vincitore o uscita</span>
+<span class="nc" id="L65">					g.gestisciTurno();</span>
+<span class="nc" id="L66">					flagUscita = g.gioca(LettoreComandi.getComando());</span>
+				}
+<span class="nc" id="L68">				ComunicazioneEsterna.finePartita(g.leggiVincitore());</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">			} else if (comando.compareTo(Comandi.NUMERI) == 0) {</span>
+<span class="nc" id="L70">				ComunicazioneEsterna.numeri();</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">			} else if (comando.compareTo(Comandi.DAMIERA) == 0) {</span>
+<span class="nc" id="L72">				ComunicazioneEsterna.suggerisciGioca();</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">			} else if (comando.compareTo(Comandi.TEMPO) == 0) {</span>
+<span class="nc" id="L74">				ComunicazioneEsterna.suggerisciGioca();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">			} else if (comando.compareTo(Comandi.ABBANDONA) == 0) {</span>
+<span class="nc" id="L76">				ComunicazioneEsterna.suggerisciGioca();</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">			} else if (comando.compareTo(Comandi.MOSSE) == 0) {</span>
+<span class="nc" id="L78">				ComunicazioneEsterna.suggerisciGioca();</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">			} else if (comando.compareTo(Comandi.PRESE) == 0) {</span>
+<span class="nc" id="L80">				ComunicazioneEsterna.suggerisciGioca();</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">			} else if (comando.compareTo(Comandi.ESCI) == 0) {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">				if (ComunicazioneEsterna.confermaEsci()) {</span>
+<span class="nc" id="L83">					flagUscita = -1;</span>
+				}
+			} else {
+<span class="nc" id="L86">				ComunicazioneEsterna.erroreComando();</span>
+			}
+
+		}
+
+<span class="nc" id="L91">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

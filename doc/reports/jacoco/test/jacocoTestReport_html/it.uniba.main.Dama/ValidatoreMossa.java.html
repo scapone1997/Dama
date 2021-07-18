@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidatoreMossa.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dama</a> &gt; <a href="index.source.html" class="el_package">it.uniba.main.Dama</a> &gt; <span class="el_source">ValidatoreMossa.java</span></div><h1>ValidatoreMossa.java</h1><pre class="source lang-java linenums">package it.uniba.main.Dama;
+
+import java.util.LinkedList;
+
+/**
+ *  &lt;&lt;Control&gt;&gt;
+ *  Classe rappresentante il validatore di una mossa di gioco. Si occupa di stabilire se la mossa effettuata Ã¨ valida.
+ *  Ha i seguenti attributi:
+ *  - corretta: vero solo se lo stato dell'istanza descrive una mossa del tipo &quot;nx ...x n&quot; o &quot;n-n&quot; con 1 &lt;= n &lt;= 32
+ *  - valida: vero solo se il controllore ValidatoreMossa accetta comando come conforme alle regole della Dama Italiana;
+ *  - caselle: indica le caselle coinvolte nella mossa di gioco;
+ *  - tipo: il tipo di mossa effettuata; valido solo se '-' o 'x' (spostamento o presa);
+ *  - daEliminare: caselle dalle quali rimuovere una pedina.
+ */
+public class ValidatoreMossa {
+
+    private int[] caselle;
+    private char tipo;
+    private boolean corretta;
+    private boolean valida;
+    private int[] daEliminare;
+
+<span class="fc" id="L23">    public ValidatoreMossa(final String comando, final Campo c) {</span>
+<span class="fc" id="L24">        traduciMossa(comando);</span>
+<span class="fc" id="L25">        convalidaMossa(c);</span>
+<span class="fc" id="L26">    }</span>
+
+    public final boolean isPresa() {
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        return tipo == 'x';</span>
+    }
+
+    public final boolean isSpostamento() {
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        return tipo == '-';</span>
+    }
+
+    public final char getTipo() {
+<span class="fc" id="L37">        return tipo;</span>
+    }
+
+    public final int[] getCaselle() {
+<span class="fc" id="L41">        int[] c = caselle;</span>
+<span class="fc" id="L42">        return c;</span>
+    }
+
+    public final int[] getDaEliminare() {
+<span class="fc" id="L46">        int[] e = daEliminare;</span>
+<span class="fc" id="L47">        return e;</span>
+    }
+
+    public final boolean isCorretta() {
+<span class="fc" id="L51">        return corretta;</span>
+    }
+
+    public final boolean isValida() {
+<span class="fc" id="L55">        return valida;</span>
+    }
+
+    //Inizializza la mossa di default:
+    // caselle = {0, 0, ..., 0}, corretta = false, tipo = '0'
+    private void inizializza() {
+<span class="fc" id="L61">        final int maxCaselle = 4;</span>
+<span class="fc" id="L62">        corretta = false;</span>
+<span class="fc" id="L63">        tipo = '0';</span>
+<span class="fc" id="L64">        caselle = new int[maxCaselle];</span>
+<span class="fc" id="L65">        daEliminare = new int[maxCaselle];</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        for (int i = 0; i &lt; maxCaselle; i++) {</span>
+<span class="fc" id="L67">            caselle[i] = 0;</span>
+        }
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        for (int i = 0; i &lt; maxCaselle; i++) {</span>
+<span class="fc" id="L70">            daEliminare[i] = 0;</span>
+        }
+<span class="fc" id="L72">    }</span>
+
+    //Controlla che la stringa modificata dallo split sia effettivamente un numero intero
+    //compreso nell'intervallo [1, 32] e non un qualsiasi altro carattere
+    private boolean range(final String input) {
+<span class="fc" id="L77">        final int maxRange = 32;</span>
+<span class="fc" id="L78">        LinkedList&lt;String&gt; rangeCaselle = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        for (int i = 1; i &lt;= maxRange; i++) {</span>
+<span class="fc" id="L80">            rangeCaselle.add(Integer.toString(i));</span>
+        }
+<span class="fc" id="L82">        return rangeCaselle.contains(input);</span>
+    }
+
+
+    //Traduce una qualsiasi stringa in una mossa del tipo &quot;-&quot; o &quot;x&quot;. Per essere valida deve rispettare il formato
+    //'numero-numero' o 'numero x numero..x numero'. Effettua dunque un controllo sintattico.
+    private void traduciMossa(final String input) {
+        String[] parts;
+<span class="fc" id="L90">        inizializza();</span>
+
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (input.contains(&quot;-&quot;)) {</span>
+<span class="fc" id="L93">            parts = input.split(&quot;-&quot;);</span>
+<span class="fc" id="L94">            tipo = '-';</span>
+<span class="fc" id="L95">            corretta = true;</span>
+<span class="pc bpc" id="L96" title="1 of 4 branches missed.">            if (parts.length == 2 &amp;&amp; input.charAt(input.length() - 1) != '-') {</span>
+<span class="fc bfc" id="L97" title="All 4 branches covered.">                for (int i = 0; i &lt; parts.length &amp;&amp; corretta; i++) {  //ergo: corretta==true</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">                    if (range(parts[i])) {</span>
+<span class="fc" id="L99">                        caselle[i] = Integer.parseInt(parts[i]);</span>
+                    } else {
+<span class="fc" id="L101">                        inizializza();</span>
+                    }
+                }
+            } else {
+<span class="fc" id="L105">                inizializza();</span>
+            }
+        }
+
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (input.contains(&quot;x&quot;)) {</span>
+<span class="fc" id="L110">            parts = input.split(&quot;x&quot;);</span>
+<span class="fc" id="L111">            tipo = 'x';</span>
+<span class="fc" id="L112">            corretta = true;</span>
+<span class="fc bfc" id="L113" title="All 4 branches covered.">            for (int i = 0; i &lt; parts.length &amp;&amp; corretta; i++) {</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">                if (input.charAt(input.length() - 1) != 'x') {</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">                    if (range(parts[i])) { //ergo: if(range(parts[i])==true)</span>
+<span class="fc" id="L116">                        caselle[i] = Integer.parseInt(parts[i]);</span>
+                    } else {
+<span class="fc" id="L118">                        inizializza();</span>
+                    }
+                } else {
+<span class="fc" id="L121">                    inizializza();</span>
+                }
+            }
+        }
+
+<span class="fc" id="L126">    }</span>
+
+    //Legge in input il tipo di mossa (presa o spostamento) e chiama il metodo per la verifica dello spostamento/presa
+    private void convalidaMossa(final Campo c) {
+<span class="fc" id="L130">        valida = false;</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (isCorretta()) { //ergo: if(isCorretta()==true)</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">            if (tipo == '-') {</span>
+<span class="fc" id="L133">                valida = isSpostamentoValido(c);</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">            } else if (tipo == 'x') {</span>
+<span class="fc" id="L135">                valida = isPresaValida(c);</span>
+            }
+        }
+<span class="fc" id="L138">    }</span>
+
+    //restituisce true la mossa spostamento in input Ã¨ valida all'interno del campo c e ad un determinato turno
+    private boolean isSpostamentoValido(final Campo c) {
+<span class="fc" id="L142">        boolean valido = false;</span>
+
+<span class="fc" id="L144">        int codicePartenza = getCaselle()[0];</span>
+<span class="fc" id="L145">        int codiceArrivo = getCaselle()[1];</span>
+<span class="fc" id="L146">        int partenzaX = c.coordinataX(getCaselle()[0]);</span>
+<span class="fc" id="L147">        int partenzaY = c.coordinataY(getCaselle()[0]);</span>
+<span class="fc" id="L148">        int arrivoX = c.coordinataX(getCaselle()[1]);</span>
+<span class="fc" id="L149">        int arrivoY = c.coordinataY(getCaselle()[1]);</span>
+
+<span class="fc bfc" id="L151" title="All 4 branches covered.">        if (c.getNero().isTurno() &amp;&amp; c.getCasella(codicePartenza).getP()</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">                != null &amp;&amp; c.getCasella(codicePartenza).getP().getColore() == 'N') {</span>
+<span class="pc bpc" id="L153" title="2 of 4 branches missed.">            if (c.getCasella(codiceArrivo).getCodice() != 0 &amp;&amp; c.getCasella(codiceArrivo).getP() == null) {</span>
+<span class="pc bpc" id="L154" title="1 of 8 branches missed.">                if (((partenzaX + 1 == arrivoX) &amp;&amp; ((partenzaY + 1 == arrivoY)))</span>
+                        || ((partenzaX + 1 == arrivoX) &amp;&amp; ((partenzaY - 1 == arrivoY)))) {
+<span class="fc" id="L156">                    valido = true;</span>
+                }
+            }
+        } else {
+<span class="fc bfc" id="L160" title="All 4 branches covered.">            if (c.getBianco().isTurno() &amp;&amp; c.getCasella(codicePartenza).getP()</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">                    != null &amp;&amp; c.getCasella(codicePartenza).getP().getColore() == 'B') {</span>
+<span class="pc bpc" id="L162" title="1 of 4 branches missed.">                if (c.getCasella(codiceArrivo).getCodice() != 0 &amp;&amp; c.getCasella(codiceArrivo).getP() == null) {</span>
+<span class="pc bpc" id="L163" title="1 of 8 branches missed.">                    if (((partenzaX - 1 == arrivoX) &amp;&amp; ((partenzaY + 1 == arrivoY)))</span>
+                            || ((partenzaX - 1 == arrivoX) &amp;&amp; ((partenzaY - 1 == arrivoY)))) {
+<span class="fc" id="L165">                        valido = true;</span>
+                    }
+                }
+            }
+        }
+<span class="fc" id="L170">        return valido;</span>
+    }
+
+    //se nella diagonale (a, b) Ã¨ presente la pedina dell'avversario allora aggiorna il vettore di validitÃ 
+    //mettendo &quot;true&quot; inserendo inoltre la pedina dell'avversario nel vettore delle pedine da eliminare
+    private void analizza(final Campo c, final int a, final int b, final int i,
+                          final char color, final boolean[] vettValida) {
+<span class="pc bpc" id="L177" title="1 of 4 branches missed.">        if (c.getCasella(a, b).getP() != null &amp;&amp; c.getCasella(a, b).getP().getColore() == color) {</span>
+<span class="fc" id="L178">            vettValida[i] = true;</span>
+<span class="fc" id="L179">            daEliminare[i] = c.getCasella(a, b).getCodice();</span>
+        }
+<span class="fc" id="L181">    }</span>
+
+    private boolean isPresaValida(final Campo c) {
+<span class="fc" id="L184">        boolean valido = false;</span>
+<span class="fc" id="L185">        int numero = 0;</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">        for (int i = 0; i &lt; getCaselle().length; i++) {</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">            if (getCaselle()[i] != 0) {</span>
+<span class="fc" id="L188">                numero++;</span>
+            }
+        }
+
+<span class="fc" id="L192">        boolean[] vettPreseValide = new boolean[numero - 1];</span>
+
+<span class="fc bfc" id="L194" title="All 2 branches covered.">        for (int j = 0; j &lt; vettPreseValide.length; j++) {</span>
+<span class="fc" id="L195">            vettPreseValide[j] = false;</span>
+        }
+
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        for (int i = 0; i &lt; vettPreseValide.length; i++) {</span>
+<span class="fc" id="L199">            int codicePartenza = getCaselle()[i];</span>
+<span class="fc" id="L200">            int codiceArrivo = getCaselle()[i + 1];</span>
+<span class="fc" id="L201">            int partenzaX = c.coordinataX(getCaselle()[i]);</span>
+<span class="fc" id="L202">            int partenzaY = c.coordinataY(getCaselle()[i]);</span>
+<span class="fc" id="L203">            int arrivoX = c.coordinataX(getCaselle()[i + 1]);</span>
+<span class="fc" id="L204">            int arrivoY = c.coordinataY(getCaselle()[i + 1]);</span>
+
+<span class="fc bfc" id="L206" title="All 2 branches covered.">            if (i == 0) {</span>
+<span class="pc bpc" id="L207" title="1 of 4 branches missed.">                if (c.getNero().isTurno() &amp;&amp; c.getCasella(codicePartenza).getP() != null</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">                        &amp;&amp; c.getCasella(codicePartenza).getP().getColore() == 'N') {</span>
+<span class="pc bpc" id="L209" title="2 of 4 branches missed.">                    if (c.getCasella(codiceArrivo).getCodice() != 0 &amp;&amp; c.getCasella(codiceArrivo).getP() == null) {</span>
+<span class="fc bfc" id="L210" title="All 4 branches covered.">                        if (partenzaX + 2 == arrivoX &amp;&amp; partenzaY + 2 == arrivoY) {</span>
+<span class="fc" id="L211">                            analizza(c, partenzaX + 1, partenzaY + 1,  i, 'B', vettPreseValide);</span>
+<span class="pc bpc" id="L212" title="1 of 4 branches missed.">                        } else if (partenzaX + 2 == arrivoX &amp;&amp; partenzaY - 2 == arrivoY) {</span>
+<span class="fc" id="L213">                            analizza(c, partenzaX + 1, partenzaY - 1, i, 'B', vettPreseValide);</span>
+                        }
+                    }
+                }
+<span class="pc bpc" id="L217" title="1 of 4 branches missed.">                if (c.getBianco().isTurno() &amp;&amp; c.getCasella(codicePartenza).getP()</span>
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">                        != null &amp;&amp; c.getCasella(codicePartenza).getP().getColore() == 'B') {</span>
+<span class="pc bpc" id="L219" title="2 of 4 branches missed.">                    if (c.getCasella(codiceArrivo).getCodice() != 0 &amp;&amp; c.getCasella(codiceArrivo).getP() == null) {</span>
+<span class="pc bpc" id="L220" title="1 of 4 branches missed.">                        if (partenzaX - 2 == arrivoX &amp;&amp; partenzaY + 2 == arrivoY) {</span>
+<span class="fc" id="L221">                            analizza(c, partenzaX - 1, partenzaY + 1, i, 'N', vettPreseValide);</span>
+<span class="pc bpc" id="L222" title="2 of 4 branches missed.">                        } else if (partenzaX - 2 == arrivoX &amp;&amp; partenzaY - 2 == arrivoY) {</span>
+<span class="fc" id="L223">                            analizza(c, partenzaX - 1, partenzaY - 1, i, 'N', vettPreseValide);</span>
+                        }
+                    }
+                }
+            } else {
+<span class="pc bpc" id="L228" title="1 of 4 branches missed.">                if (c.getNero().isTurno() &amp;&amp; vettPreseValide[i - 1]) {</span>
+<span class="pc bpc" id="L229" title="2 of 4 branches missed.">                    if (c.getCasella(codiceArrivo).getCodice() != 0 &amp;&amp; c.getCasella(codiceArrivo).getP() == null) {</span>
+<span class="pc bpc" id="L230" title="1 of 4 branches missed.">                        if (partenzaX + 2 == arrivoX &amp;&amp; partenzaY + 2 == arrivoY) {</span>
+<span class="fc" id="L231">                            analizza(c, partenzaX + 1, partenzaY + 1, i, 'B', vettPreseValide);</span>
+<span class="pc bpc" id="L232" title="2 of 4 branches missed.">                        } else if (partenzaX + 2 == arrivoX &amp;&amp; partenzaY - 2 == arrivoY) {</span>
+<span class="fc" id="L233">                            analizza(c, partenzaX + 1, partenzaY - 1, i, 'B', vettPreseValide);</span>
+                        }
+                    }
+                }
+<span class="pc bpc" id="L237" title="1 of 4 branches missed.">                if (c.getBianco().isTurno() &amp;&amp; vettPreseValide[i - 1]) {</span>
+<span class="pc bpc" id="L238" title="1 of 4 branches missed.">                    if (c.getCasella(codiceArrivo).getCodice() != 0 &amp;&amp; c.getCasella(codiceArrivo).getP() == null) {</span>
+<span class="pc bpc" id="L239" title="1 of 4 branches missed.">                        if (partenzaX - 2 == arrivoX &amp;&amp; partenzaY + 2 == arrivoY) {</span>
+<span class="fc" id="L240">                            analizza(c, partenzaX - 1, partenzaY + 1,  i, 'N', vettPreseValide);</span>
+<span class="pc bpc" id="L241" title="2 of 4 branches missed.">                        } else if (partenzaX - 2 == arrivoX &amp;&amp; partenzaY - 2 == arrivoY) {</span>
+<span class="nc" id="L242">                            analizza(c, partenzaX - 1, partenzaY - 1,  i, 'N',  vettPreseValide);</span>
+                        }
+                    }
+                }
+            }
+        }
+<span class="fc" id="L248">        valido = vettoreValido(vettPreseValide);</span>
+<span class="fc" id="L249">        return valido;</span>
+    }
+
+    //verifica che l'array letto Ã¨ valido o se contiene errori (o non contiene - o x)
+    private boolean vettoreValido(final boolean[] array) {
+<span class="fc bfc" id="L254" title="All 2 branches covered.">        for (int i = 0; i &lt; array.length; i++) {</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">            if (!array[i]) {</span>
+<span class="fc" id="L256">                return false;</span>
+            }
+        }
+<span class="fc" id="L259">        return true;</span>
+    }
+
+    public final String toString() {
+<span class="fc" id="L263">        StringBuilder sbResult = new StringBuilder();</span>
+<span class="fc" id="L264">        sbResult.append(&quot;ValidatoreMossa: &quot; + tipo + &quot;\n&quot;);</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">        for (int i = 0; i &lt; caselle.length; i++) {</span>
+<span class="fc" id="L266">            sbResult.append(caselle[i] + &quot; &quot;);</span>
+        }
+<span class="fc" id="L268">        sbResult.append(&quot;\nCorretta: &quot; + corretta + &quot;\n&quot;);</span>
+<span class="fc" id="L269">        return sbResult.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

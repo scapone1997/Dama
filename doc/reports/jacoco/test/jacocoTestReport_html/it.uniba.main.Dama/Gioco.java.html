@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Gioco.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dama</a> &gt; <a href="index.source.html" class="el_package">it.uniba.main.Dama</a> &gt; <span class="el_source">Gioco.java</span></div><h1>Gioco.java</h1><pre class="source lang-java linenums">package it.uniba.main.Dama;
+
+import it.uniba.main.Costanti.Comandi;
+import it.uniba.main.InterfacciaUtente.ComunicazioneEsterna;
+import java.time.LocalTime;
+import java.util.ArrayList;
+
+/**
+ *  &lt;&lt;Control&gt;&gt;
+ *  La classe Gioco contiene il Campo di gioco e tutte le informazioni relative alla partita in corso. Si occupa di
+ *  gestire la turnazione, eseguire i comandi richiamando i metodi opportuni e dichiarare un vincitore.
+ *  Ha i seguenti attributi:
+ *  - c: campo di gioco dove si svolge la partita
+ *  - turno: contatore indicante i turni dei giocatori; i turni dispari sono del Giocatore bianco, pari del nero;
+ *           si inizia dal turno 1 e il turno avanza solo dopo una mossa valida;
+ *  - vincitore: stringa indicante il giocatore vincitore della partita.
+ */
+public class Gioco {
+    private Campo c;
+    private int turno;
+    private String vincitore;
+
+    //costruttore del campo Gioco
+<span class="fc" id="L24">    public Gioco() {</span>
+<span class="fc" id="L25">        c = new Campo();</span>
+<span class="fc" id="L26">        turno = 1; //i turni dispari sono del Bianco, quelli pari del Nero</span>
+<span class="fc" id="L27">        c.getBianco().setTurno(true); //inizia il bianco</span>
+<span class="fc" id="L28">        vincitore = &quot;nessuno&quot;;</span>
+<span class="fc" id="L29">        Mossa.resetRegistroMosse(); //resetto il registro mosse nel caso in cui ci fosse stata una precedente partita</span>
+<span class="fc" id="L30">    }</span>
+
+    private Campo leggiCampo() {
+<span class="fc" id="L33">        return c; }</span>
+
+    private void incrementaTurno() {
+<span class="fc" id="L36">        turno++; }</span>
+
+    public final int leggiTurno() {
+<span class="fc" id="L39">        return turno;</span>
+    }
+
+    //stabilisce di chi Ã¨ il turno attuale
+    public final void gestisciTurno() {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (leggiTurno() % 2 == 0) {</span>
+<span class="fc" id="L45">            ComunicazioneEsterna.avvisoTurnoGiocatore(&quot;Nero&quot;);</span>
+<span class="fc" id="L46">            leggiCampo().getNero().setTurno(true);</span>
+<span class="fc" id="L47">            leggiCampo().getBianco().setTurno(false);</span>
+<span class="fc" id="L48">            leggiCampo().getNero().setInizioTurnoCorrente(LocalTime.now());</span>
+        } else {
+<span class="fc" id="L50">            ComunicazioneEsterna.avvisoTurnoGiocatore(&quot;Bianco&quot;);</span>
+<span class="fc" id="L51">            leggiCampo().getNero().setTurno(false);</span>
+<span class="fc" id="L52">            leggiCampo().getBianco().setTurno(true);</span>
+<span class="fc" id="L53">            leggiCampo().getBianco().setInizioTurnoCorrente(LocalTime.now());</span>
+        }
+<span class="fc" id="L55">    }</span>
+
+
+    public final String leggiVincitore() {
+<span class="fc" id="L59">        return vincitore;</span>
+    }
+
+    private void scriviVincitore(final String v) {
+<span class="fc" id="L63">        vincitore = v;</span>
+<span class="fc" id="L64">    }</span>
+
+    /*
+     * metodo rappresentante un turno di gioco. Il comando in input viene interpretato ed elaborato
+     * di conseguenza. Se Ã¨ una mossa, viene eseguita e il turno passa al giocatore avversario.
+     * La variabile flag indica l'esito della partita:
+     * 1 c'Ã¨ un vincitore, 0 partita in corso, -1 uscita dalla partita
+     */
+    public int gioca(final String comando) {
+<span class="fc" id="L73">        int flag = 0; //1 c'Ã¨ un vincitore, -1 uscita dalla partita, 0 partita in corso</span>
+<span class="fc" id="L74">        Mossa m = new Mossa(comando, c); //elabora comando del giocatore corrente</span>
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (comando.compareTo(Comandi.HELP) == 0) {</span>
+<span class="fc" id="L77">            ComunicazioneEsterna.help();</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        } else if (comando.compareTo(Comandi.NUMERI) == 0) {</span>
+<span class="fc" id="L79">            ComunicazioneEsterna.numeri();</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        } else if (comando.compareTo(Comandi.DAMIERA) == 0) {</span>
+<span class="fc" id="L81">            ComunicazioneEsterna.damiera(leggiCampo().toString());</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        } else if (comando.compareTo(Comandi.TEMPO) == 0) {</span>
+<span class="fc" id="L83">            tempo();</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        } else if (comando.compareTo(Comandi.MOSSE) == 0) {</span>
+<span class="fc" id="L85">            mosse(Mossa.getRegistroMosse());</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        } else if (comando.compareTo(Comandi.ABBANDONA) == 0) {</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">            if (ComunicazioneEsterna.confermaAbbandono()) {</span>
+<span class="fc" id="L88">                scriviVincitore(abbandono());</span>
+<span class="fc" id="L89">                flag = 1;</span>
+            }
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        } else if (comando.compareTo(Comandi.ESCI) == 0) {</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            if (ComunicazioneEsterna.confermaEsci()) {</span>
+<span class="nc" id="L93">                flag = -1;</span>
+<span class="nc" id="L94">                return flag;</span>
+            }
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        } else if (comando.compareTo(Comandi.PRESE) == 0) {</span>
+<span class="fc" id="L97">            prese(c.getBianco().getPedinePrese(), c.getNero().getPedinePrese());</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        } else if (m.isCorretta()) {</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">            if (m.isValida()) {</span>
+<span class="fc" id="L100">                effettuaMossa(m);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">                if (m.isPresa()) {</span>
+<span class="fc" id="L102">                    ComunicazioneEsterna.avvisoPresa(); //avvisa di una presa</span>
+                }
+<span class="fc" id="L104">                c.promozione(); //effettua promozioni a dama se necessario</span>
+<span class="fc" id="L105">                incrementaTurno();</span>
+            } else {
+<span class="fc" id="L107">                ComunicazioneEsterna.erroreMossa();</span>
+            }
+        } else {
+<span class="fc" id="L110">            ComunicazioneEsterna.erroreComando();</span>
+        }
+
+        //Aggiorna tempo di gioco, non posso usare la variabile turno perchÃ¨ potrebbe essere stata incrementata
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        if (leggiCampo().getNero().isTurno()) {</span>
+<span class="fc" id="L115">            leggiCampo().getNero().aggiornaTempoGioco();</span>
+        } else {
+<span class="fc" id="L117">            leggiCampo().getBianco().aggiornaTempoGioco();</span>
+        }
+
+        /* prototipo di controllo fine partita //se pedine prese =12
+        vincitore = controlloVincitore()
+        if ( vincitore == patta || Bianco || Nero ){
+            partitaFinita = true; //ovvero flag = 1
+        }
+        */
+<span class="fc" id="L126">        return flag;</span>
+    }
+
+    //metodo che stampa le prese dei relativi giocatori in formato stringa
+    private void prese(final ArrayList&lt;Pedina&gt; pedineNere, final ArrayList&lt;Pedina&gt; pedineBianche) {
+<span class="fc" id="L131">        ArrayList&lt;String&gt; simboliNeri = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L132">        ArrayList&lt;String&gt; simboliBianchi = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        for (Pedina pedina : pedineNere) {</span>
+<span class="fc" id="L134">            simboliNeri.add(pedina.getSimbolo());</span>
+<span class="fc" id="L135">        }</span>
+<span class="fc" id="L136">        ComunicazioneEsterna.stampaPreseDelBianco(simboliNeri);</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        for (Pedina pedina : pedineBianche) {</span>
+<span class="fc" id="L138">            simboliBianchi.add(pedina.getSimbolo());</span>
+<span class="fc" id="L139">        }</span>
+<span class="fc" id="L140">        ComunicazioneEsterna.stampaPreseDelNero(simboliBianchi);</span>
+<span class="fc" id="L141">    }</span>
+
+    //metodo che stampa le mosse di gioco in formato stringa
+    private void mosse(final ArrayList&lt;Mossa&gt; registroMosse) {
+<span class="fc" id="L145">        ArrayList&lt;String&gt; registroMosseString = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        for (Mossa m : registroMosse) {</span>
+<span class="fc" id="L147">            registroMosseString.add(m.getGiocatore() + &quot; &quot; + m.getComando());</span>
+<span class="fc" id="L148">        }</span>
+<span class="fc" id="L149">        ComunicazioneEsterna.letturaRegistroMosse(registroMosseString);</span>
+<span class="fc" id="L150">    }</span>
+
+    //metodo che assegna la vincita di una partita ad un giocatore dopo che l'avversario ha abbandonato
+    private String abbandono() {
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        if (c.getNero().isTurno()) {</span>
+<span class="nc" id="L155">            ComunicazioneEsterna.perdente(&quot;Nero&quot;);</span>
+<span class="nc" id="L156">            vincitore = &quot;Bianco&quot;;</span>
+        } else {
+<span class="fc" id="L158">            ComunicazioneEsterna.perdente(&quot;Bianco&quot;);</span>
+<span class="fc" id="L159">            vincitore = &quot;Nero&quot;;</span>
+        }
+<span class="fc" id="L161">        return vincitore;</span>
+    }
+
+    //metodo che setta il tempo del giocatore chiamante
+    //al turno corrente e stampa a video il tempo di entrambi i giocatori
+    private void tempo() {
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        if (leggiCampo().getNero().isTurno()) {</span>
+<span class="fc" id="L168">            leggiCampo().getNero().aggiornaTempoGioco();</span>
+<span class="fc" id="L169">            leggiCampo().getNero().setInizioTurnoCorrente(LocalTime.now());</span>
+            //se non lo aggiorno, se continuo a chiedere il tempo nello stesso turno faccio somme esponenziali
+        } else {
+<span class="fc" id="L172">            leggiCampo().getBianco().aggiornaTempoGioco();</span>
+<span class="fc" id="L173">            leggiCampo().getBianco().setInizioTurnoCorrente(LocalTime.now()); //idem</span>
+        }
+<span class="fc" id="L175">        ComunicazioneEsterna.stampaTempoGioco(leggiCampo().getNero().getTempoGioco(),</span>
+<span class="fc" id="L176">                leggiCampo().getBianco().getTempoGioco());</span>
+<span class="fc" id="L177">    }</span>
+
+    //metodo che effettua una mossa valida
+    private void effettuaMossa(final Mossa m) {
+<span class="fc bfc" id="L181" title="All 2 branches covered.">        if (m.isSpostamento()) {</span>
+<span class="fc" id="L182">            int[] coordinate = m.getCaselle();</span>
+<span class="fc" id="L183">            c.spostaPedina(coordinate[0], coordinate[1]);</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">        } else if (m.isPresa()) {</span>
+<span class="fc" id="L185">            int[] coordinate = m.getCaselle();</span>
+<span class="fc" id="L186">            int[] eliminate = m.getDaEliminare();</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">            for (int i = 0; i &lt; eliminate.length - 1; i++) {</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">                if (eliminate[i] != 0) {</span>
+<span class="fc" id="L189">                    c.eliminaPedina(eliminate[i]);</span>
+                }
+            }
+<span class="fc bfc" id="L192" title="All 2 branches covered.">            for (int i = 0; i &lt; coordinate.length - 1; i++) {</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">                if (coordinate[i + 1] != 0) {</span>
+<span class="fc" id="L194">                    c.spostaPedina(coordinate[i], coordinate[i + 1]);</span>
+                }
+            }
+        }
+<span class="fc" id="L198">    }</span>
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

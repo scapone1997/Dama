@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Pedina.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dama</a> &gt; <a href="index.source.html" class="el_package">it.uniba.main.Dama</a> &gt; <span class="el_source">Pedina.java</span></div><h1>Pedina.java</h1><pre class="source lang-java linenums">package it.uniba.main.Dama;
+
+/**
+ *  &lt;&lt;Entity&gt;&gt;
+ *  La classe Pedina rappresenta un oggetto che si muove sulla scacchiera solo in avanti. Ogni pedina ha:
+ *  - colore: lo stesso del giocatore che controlla la pedina;
+ *  - simbolo: un simbolo rappresentante la pedina;
+ *  - attributo booleano dama: settato inizialmente a false,
+ *      dama diventa true se la pedina raggiunge la base avversaria.
+ */
+
+public class Pedina {
+    private char colore;
+    private String simbolo;
+    private boolean dama;
+
+<span class="fc" id="L17">    public Pedina(final char c, final String s) {</span>
+<span class="fc" id="L18">        setColore(c);</span>
+<span class="fc" id="L19">        setDama(false);</span>
+<span class="fc" id="L20">        setSimbolo(s);</span>
+<span class="fc" id="L21">    }</span>
+
+    public final char getColore() {
+<span class="fc" id="L24">        return colore; }</span>
+
+    public final void setColore(final char c) {
+<span class="fc" id="L27">        this.colore = c;</span>
+<span class="fc" id="L28">    }</span>
+
+    public final boolean isDama() {
+<span class="fc" id="L31">        return dama;</span>
+    }
+
+    public final void setDama(final boolean d) {
+<span class="fc" id="L35">        this.dama = d; }</span>
+
+    public final String getSimbolo() {
+<span class="fc" id="L38">        return simbolo;</span>
+    }
+
+    public final void setSimbolo(final String s) {
+<span class="fc" id="L42">        this.simbolo = s;</span>
+<span class="fc" id="L43">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

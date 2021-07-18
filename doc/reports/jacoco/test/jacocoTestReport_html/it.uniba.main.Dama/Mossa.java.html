@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Mossa.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dama</a> &gt; <a href="index.source.html" class="el_package">it.uniba.main.Dama</a> &gt; <span class="el_source">Mossa.java</span></div><h1>Mossa.java</h1><pre class="source lang-java linenums">package it.uniba.main.Dama;
+
+import java.util.ArrayList;
+
+/**
+ *  &lt;&lt;Entity&gt;&gt;
+ *  Classe rappresentante una mossa di gioco.
+ *  Ha i seguenti attributi:
+ *  - corretta: vero solo se il controllore ValidatoreMossa accetta comando come semanticamente corretta;
+ *  - valida: vero solo se il controllore ValidatoreMossa accetta comando come conforme alle regole della Dama Italiana;
+ *  - comando: ultima mossa effettuata, in formato String, che deve essere interpretata dal validatore;
+ *  - giocatore: colore del giocatore che effettua la mossa;
+ *  - tipo: il tipo di mossa effettuata;
+ *  - caselle: indica le caselle coinvolte nella mossa di gioco;
+ *  - daEliminare: caselle dalle quali rimuovere una pedina;
+ *  - registroMosse: lista contenente tutte le mosse valide effettuate, in formato String.
+ */
+public class Mossa {
+<span class="fc" id="L19">    private static ArrayList&lt;Mossa&gt; registroMosse = new ArrayList&lt;&gt;();</span>
+    private String comando;
+    private String tipo; //tipo mossa
+    private char giocatore; //giocatore che effettua la mossa
+    private boolean corretta;
+    private boolean valida;
+    private int[] daEliminare; //caselle dalle quali rimuovere una pedina
+    private int[] caselle; //indica le caselle coinvolte nella mossa di gioco
+
+<span class="fc" id="L28">    public Mossa(final String mossaLetta, final Campo c) {</span>
+<span class="fc" id="L29">        comando = mossaLetta;</span>
+<span class="fc" id="L30">        avvalora(new ValidatoreMossa(comando, c));</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (c.getBianco().isTurno()) {</span>
+<span class="fc" id="L32">            giocatore = c.getBianco().getColore();</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        } else if (c.getNero().isTurno()) {</span>
+<span class="fc" id="L34">            giocatore = c.getNero().getColore();</span>
+        } else {
+<span class="fc" id="L36">            valida = false;</span>
+        }
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (valida) {</span>
+<span class="fc" id="L39">            registraMossa();</span>
+        }
+<span class="fc" id="L41">    }</span>
+
+    public final String getComando() {
+<span class="fc" id="L44">        return comando; }</span>
+    public final char getGiocatore() {
+<span class="fc" id="L46">        return giocatore; }</span>
+    public final boolean isPresa() {
+<span class="fc" id="L48">        return tipo.equals(&quot;presa&quot;); }</span>
+    public final boolean isSpostamento() {
+<span class="fc" id="L50">        return tipo.equals(&quot;spostamento&quot;); }</span>
+    public final boolean isCorretta() {
+<span class="fc" id="L52">        return corretta; }</span>
+    public final boolean isValida() {
+<span class="fc" id="L54">        return valida; }</span>
+    public final int[] getCaselle() {
+<span class="fc" id="L56">        int[] c = caselle;</span>
+<span class="fc" id="L57">        return c;</span>
+    } //indica le caselle coinvolte nella mossa di gioco
+    public final int[] getDaEliminare() {
+<span class="fc" id="L60">        int[] e = daEliminare;</span>
+<span class="fc" id="L61">        return e;</span>
+    } //caselle dalle quali rimuovere una pedina
+
+    //convalida e avvalora Mossa tramite un controllore ValidatoreMossa
+    private void avvalora(final ValidatoreMossa vm) {
+<span class="fc" id="L66">        corretta = vm.isCorretta();</span>
+<span class="fc" id="L67">        valida = vm.isValida();</span>
+<span class="fc" id="L68">        daEliminare = vm.getDaEliminare();</span>
+<span class="fc" id="L69">        caselle = vm.getCaselle();</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (vm.isPresa()) {</span>
+<span class="fc" id="L71">            tipo = &quot;presa&quot;;</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        } else if (vm.isSpostamento()) {</span>
+<span class="fc" id="L73">            tipo = &quot;spostamento&quot;;</span>
+        }
+<span class="fc" id="L75">    }</span>
+
+    //metodo che registra le mosse effettuate dai giocatori all'interno di registroMosse
+    private void registraMossa() {
+<span class="fc" id="L79">        registroMosse.add(this); }</span>
+    public static ArrayList&lt;Mossa&gt; getRegistroMosse() {
+<span class="fc" id="L81">        return registroMosse; }</span>
+    public static void resetRegistroMosse() {
+<span class="fc" id="L83">        registroMosse.clear(); }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

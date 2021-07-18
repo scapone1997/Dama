@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Campo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dama</a> &gt; <a href="index.source.html" class="el_package">it.uniba.main.Dama</a> &gt; <span class="el_source">Campo.java</span></div><h1>Campo.java</h1><pre class="source lang-java linenums">package it.uniba.main.Dama;
+
+import it.uniba.main.Costanti.Colori;
+import it.uniba.main.Costanti.Simboli;
+import it.uniba.main.InterfacciaUtente.ComunicazioneEsterna;
+
+/**
+ *  &lt;&lt;Entity&gt;&gt;
+ *  La classe Campo rappresenta il campo di gioco. Il Campo Ã¨ composto da:
+ *  - matrice: una matrice 8x8 di tipo Casella;
+ *  - nero: giocatore di colore nero (N) che controlla pedine nere (N);
+ *  - bianco: giocatore di colore bianco (B) che controlla pedine bianche (B);
+ *  - MAX_MATRICE: limite caselle orizzontali
+ *  - MAX_SCACCHIERA: massimo numero caselle valide
+ */
+public class Campo {
+    private Casella[][] matrice;
+    private Giocatore nero;
+    private Giocatore bianco;
+    private static final int MAX_MATRICE = 8;
+    private static final int MAX_SCACCHIERA = 32;
+
+<span class="fc" id="L23">    public Campo() {</span>
+<span class="fc" id="L24">        matrice = new Casella[MAX_MATRICE][MAX_MATRICE];</span>
+<span class="fc" id="L25">        nero = new Giocatore('N');</span>
+<span class="fc" id="L26">        bianco = new Giocatore('B');</span>
+<span class="fc" id="L27">        inizializza();</span>
+<span class="fc" id="L28">        predispondiPedine();</span>
+<span class="fc" id="L29">    }</span>
+
+    public final Casella getCasella(final int i, final int j) {
+        //controllo e eccezione
+<span class="fc" id="L33">        return matrice[i][j];</span>
+    }
+
+    //Restituisce una casella avente il codice preso in input
+    public final Casella getCasella(final int codiceCasella) {
+<span class="fc" id="L38">        Casella c = new Casella();</span>
+<span class="fc bfc" id="L39" title="All 4 branches covered.">        if (codiceCasella &gt;= 1 &amp;&amp; codiceCasella &lt;= MAX_SCACCHIERA) {</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            for (int i = 0; i &lt; MAX_MATRICE; i++) {</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">                for (int j = 0; j &lt; MAX_MATRICE; j++) {</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                    if (matrice[i][j].getCodice() == codiceCasella) {</span>
+<span class="fc" id="L43">                        c = matrice[i][j];</span>
+                    }
+                }
+            }
+        }
+<span class="fc" id="L48">        return c;</span>
+    }
+
+    public final Giocatore getBianco() {
+<span class="fc" id="L52">        return bianco;</span>
+    }
+
+    public final Giocatore getNero() {
+<span class="fc" id="L56">        return nero;</span>
+    }
+
+    public final Casella[][] getMatrice() {
+<span class="fc" id="L60">        Casella[][] m = matrice;</span>
+<span class="fc" id="L61">        return m;</span>
+    }
+
+
+
+
+
+    //Restituisce la coordinata x della casella avente codice preso in input
+    public final int coordinataX(final int codiceCasella) {
+<span class="fc" id="L70">        int x = 0;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        for (int i = 0; i &lt; MAX_MATRICE; i++) {</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">            for (int j = 0; j &lt; MAX_MATRICE; j++) {</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">                if (matrice[i][j].getCodice() == codiceCasella) {</span>
+<span class="fc" id="L74">                    x = matrice[i][j].getX();</span>
+                }
+            }
+        }
+<span class="fc" id="L78">        return x;</span>
+    }
+
+    //Restituisce la coordinata y della casella avente codice preso in input
+    public final int coordinataY(final int codiceCasella) {
+<span class="fc" id="L83">        int y = 0;</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        for (int i = 0; i &lt; MAX_MATRICE; i++) {</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            for (int j = 0; j &lt; MAX_MATRICE; j++) {</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">                if (matrice[i][j].getCodice() == codiceCasella) {</span>
+<span class="fc" id="L87">                    y = matrice[i][j].getY();</span>
+                }
+            }
+        }
+<span class="fc" id="L91">        return y;</span>
+    }
+
+    //Prende in input il codice di una casella ed elimina la pedina sopra se presente.
+    //Tale pedina Ã¨ messa nelle prese del giocatore opposto al colore della pedina
+    public final void eliminaPedina(final int codiceCasella) {
+<span class="fc" id="L97">        int x = coordinataX(codiceCasella);</span>
+<span class="fc" id="L98">        int y = coordinataY(codiceCasella);</span>
+        char c;
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        if (matrice[x][y].getP() != null) {</span>
+<span class="fc" id="L101">            c = matrice[x][y].getP().getColore();</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (c == 'B') {</span>
+<span class="fc" id="L103">                getNero().addPedina(matrice[x][y].getP());</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">            } else if (c == 'N') {</span>
+<span class="fc" id="L105">                getBianco().addPedina(matrice[x][y].getP());</span>
+            }
+
+<span class="fc" id="L108">            matrice[x][y].setP(null);</span>
+        }
+<span class="fc" id="L110">    }</span>
+
+    //Prende in input il codice di due caselle ed effettua lo spostamento della pedina
+    //in posizione partenza nella casella di arrivo
+    public final void spostaPedina(final int partenza, final int arrivo) {
+<span class="fc" id="L115">        int partenzaX = coordinataX(partenza);</span>
+<span class="fc" id="L116">        int partenzaY = coordinataY(partenza);</span>
+<span class="fc" id="L117">        int arrivoX = coordinataX(arrivo);</span>
+<span class="fc" id="L118">        int arrivoY = coordinataY(arrivo);</span>
+<span class="fc" id="L119">        sposta(partenzaX, partenzaY, arrivoX, arrivoY);</span>
+<span class="fc" id="L120">    }</span>
+
+    private void sposta(final int partenzaX, final int partenzaY, final int arrivoX, final int arrivoY) {
+<span class="fc" id="L123">        matrice[arrivoX][arrivoY].setP(matrice[partenzaX][partenzaY].getP());</span>
+<span class="fc" id="L124">        matrice[partenzaX][partenzaY].setP(null);</span>
+<span class="fc" id="L125">    }</span>
+
+    //metodo che promuove una pedina a dama se si trova sul lato opposto della damiera
+    public final void promozione() {
+<span class="fc" id="L129">        final int[] casellePromozioneBianco = {1, 2, 3, 4};</span>
+<span class="fc" id="L130">        final int[] casellePromozioneNero = {29, 30, 31, 32};</span>
+        //le bianche sono promosse se si trovano nelle caselle 1,2,3 o 4
+        //le nere sono promosse se si trovano nelle caselle 29,30,31 o 32
+
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        for (int i : casellePromozioneBianco) {</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">            if (checkPromozioneIdonea(i, 'B')) {</span>
+<span class="fc" id="L136">                promuoviPedina(getCasella(i).getP());</span>
+<span class="fc" id="L137">                ComunicazioneEsterna.avvisoPromozione();</span>
+            }
+        }
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        for (int i : casellePromozioneNero) {</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">            if (checkPromozioneIdonea(i, 'N')) {</span>
+<span class="fc" id="L142">                promuoviPedina(getCasella(i).getP());</span>
+<span class="fc" id="L143">                ComunicazioneEsterna.avvisoPromozione();</span>
+            }
+        }
+<span class="fc" id="L146">    }</span>
+
+    //metodo che controlla se una pedina puÃ² diventare dama
+    private boolean checkPromozioneIdonea(final int casella, final char colore) {
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (getCasella(casella).getP() != null) {</span>
+<span class="fc bfc" id="L151" title="All 4 branches covered.">            return getCasella(casella).getP().getColore() == colore &amp;&amp; !getCasella(casella).getP().isDama();</span>
+        } else {
+<span class="fc" id="L153">            return false;</span>
+        }
+    }
+
+    //promuove una pedina a dama
+    private void promuoviPedina(final Pedina p) {
+<span class="fc" id="L159">        p.setDama(true);</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        if (p.getColore() == 'B') {</span>
+<span class="fc" id="L161">            p.setSimbolo(Simboli.DAMA_BIANCA);</span>
+        } else {
+<span class="fc" id="L163">            p.setSimbolo(Simboli.DAMA_NERA);</span>
+        }
+
+<span class="fc" id="L166">    }</span>
+
+    //Inizializza le caselle delle matrici. Ad ogni casella bianca &quot;non valida&quot; viene assegnato il valore 0.
+    //Ad ogni casella nera (valida) viene assegnato un codice che varia da 1 a 32.
+    private void inizializza() {
+        int codice;
+<span class="fc" id="L172">        codice = 0;</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        for (int i = 0; i &lt; MAX_MATRICE; i++) {</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">            for (int j = 0; j &lt; MAX_MATRICE; j++) {</span>
+<span class="fc" id="L175">                matrice[i][j] = new Casella();</span>
+<span class="fc" id="L176">                matrice[i][j].setX(i);</span>
+<span class="fc" id="L177">                matrice[i][j].setY(j);</span>
+<span class="fc bfc" id="L178" title="All 4 branches covered.">                if (i % 2 == 0 &amp;&amp; j % 2 == 0) {</span>
+<span class="fc" id="L179">                    matrice[i][j].setCodice(codice + 1);</span>
+<span class="fc" id="L180">                    codice++;</span>
+                }
+<span class="fc bfc" id="L182" title="All 4 branches covered.">                if (i % 2 != 0 &amp;&amp; j % 2 != 0) {</span>
+<span class="fc" id="L183">                    matrice[i][j].setCodice(codice + 1);</span>
+<span class="fc" id="L184">                    codice++;</span>
+                }
+            }
+        }
+<span class="fc" id="L188">    }</span>
+
+    //Predispone le pedine sulla damiera. Dalla riga 0 alla riga 2 inserisce nelle caselle nere le pedine del
+    //giocatore nero. Dalla riga 5 alla riga 7 inserisce le pedine del giocatore bianco. Incrementa ad ogni inserimento
+    //il numero delle pedine sul campo.
+    private void predispondiPedine() {
+<span class="fc bfc" id="L194" title="All 2 branches covered.">        for (int i = 0; i &lt; MAX_MATRICE; i++) {</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">            for (int j = 0; j &lt; MAX_MATRICE; j++) {</span>
+<span class="fc" id="L196">                final int latoNero = 3; //fino alla terza riga, si posizoinano pedine nere</span>
+<span class="fc" id="L197">                final int latoBianco = 4; //a partire dalla quinta riga, si posizionano pedine bianche</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">                if (i &lt; latoNero) {</span>
+<span class="fc bfc" id="L199" title="All 4 branches covered.">                    if (i % 2 == 0 &amp;&amp; j % 2 == 0) {</span>
+<span class="fc" id="L200">                        matrice[i][j].setP(new Pedina('N', Simboli.PEDINA_NERA));</span>
+
+                    }
+<span class="fc bfc" id="L203" title="All 4 branches covered.">                    if (i % 2 != 0 &amp;&amp; j % 2 != 0) {</span>
+<span class="fc" id="L204">                        matrice[i][j].setP(new Pedina('N', Simboli.PEDINA_NERA));</span>
+
+                    }
+                }
+
+<span class="fc bfc" id="L209" title="All 2 branches covered.">                if (i &gt; latoBianco) {</span>
+<span class="fc bfc" id="L210" title="All 4 branches covered.">                    if (i % 2 != 0 &amp;&amp; j % 2 != 0) {</span>
+<span class="fc" id="L211">                        matrice[i][j].setP(new Pedina('B', Simboli.PEDINA_BIANCA));</span>
+
+                    }
+<span class="fc bfc" id="L214" title="All 4 branches covered.">                    if (i % 2 == 0 &amp;&amp; j % 2 == 0) {</span>
+<span class="fc" id="L215">                        matrice[i][j].setP(new Pedina('B', Simboli.PEDINA_BIANCA));</span>
+                    }
+                }
+            }
+        }
+<span class="fc" id="L220">    }</span>
+
+    //Overriding
+    public final String toString() {
+<span class="fc" id="L224">        StringBuilder s = new StringBuilder();</span>
+<span class="fc" id="L225">        s.append(stampaBordoAlto());</span>
+<span class="fc" id="L226">        final int limiteStampa = 7;</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">        for (int i = 0; i &lt; MAX_MATRICE; i++) {</span>
+<span class="fc" id="L228">            s.append(&quot;\n&quot;);</span>
+<span class="fc" id="L229">            s.append(stampaRigaDamieraConPedine(i));</span>
+<span class="fc" id="L230">            s.append(&quot;\n&quot;);</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">            if (i &lt; limiteStampa) {</span>
+<span class="fc" id="L232">                s.append(stampaBordoCentrale());</span>
+            }
+        }
+<span class="fc" id="L235">        s.append(stampaBordoBasso());</span>
+<span class="fc" id="L236">        return s.toString();</span>
+
+    }
+
+    private String stampaBordoAlto() {
+<span class="fc" id="L241">        final int limiteStampa = 7;</span>
+<span class="fc" id="L242">        StringBuilder s = new StringBuilder();</span>
+<span class="fc" id="L243">        s.append(&quot;â”Œâ”€â”€â”€â”€â”€&quot;);</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">        for (int i = 0; i &lt; limiteStampa; i++) {</span>
+<span class="fc" id="L245">            s.append(&quot;â”¬â”€â”€â”€â”€â”€&quot;);</span>
+        }
+<span class="fc" id="L247">        s.append(&quot;â”¬&quot;);</span>
+<span class="fc" id="L248">        return s.toString();</span>
+    }
+
+    private String stampaRigaDamieraConPedine(final int riga) {
+<span class="fc" id="L252">        StringBuilder s = new StringBuilder();</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">        for (int i = 0; i &lt; MAX_MATRICE; i++) {</span>
+<span class="fc bfc" id="L254" title="All 4 branches covered.">            if (matrice[riga][i].getCodice() != 0 &amp;&amp; matrice[riga][i].getP() != null) {</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">                if (matrice[riga][i].getP().getColore() == 'N') {</span>
+<span class="fc" id="L256">                    s.append(&quot;â”‚ &quot; + Colori.ANSI_BLACK + Colori.ANSI_RED_BACKGROUND + &quot; &quot;</span>
+<span class="fc" id="L257">                            + matrice[riga][i].getP().getSimbolo() + &quot; &quot;</span>
+                            + Colori.ANSI_RESET + &quot; &quot;);
+                } else {
+<span class="fc" id="L260">                    s.append(&quot;â”‚ &quot; + Colori.ANSI_WHITE + Colori.ANSI_RED_BACKGROUND + &quot; &quot;</span>
+<span class="fc" id="L261">                            + matrice[riga][i].getP().getSimbolo() + &quot; &quot;</span>
+                            + Colori.ANSI_RESET + &quot; &quot;);
+                }
+            } else {
+<span class="fc bfc" id="L265" title="All 4 branches covered.">                if (riga % 2 == 0  &amp;&amp;   i % 2 != 0) {</span>
+<span class="fc" id="L266">                    s.append(&quot;â”‚ &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET + &quot; &quot;);</span>
+<span class="fc bfc" id="L267" title="All 4 branches covered.">                } else if (riga % 2 != 0  &amp;&amp;  i % 2 == 0) {</span>
+<span class="fc" id="L268">                    s.append(&quot;â”‚ &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET + &quot; &quot;);</span>
+                } else {
+<span class="fc" id="L270">                    s.append(&quot;â”‚ &quot; + Colori.ANSI_RED_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET + &quot; &quot;);</span>
+                }
+            }
+        }
+<span class="fc" id="L274">        s.append(&quot;â”‚&quot;);</span>
+<span class="fc" id="L275">        return s.toString();</span>
+    }
+
+    private String stampaBordoCentrale() {
+<span class="fc" id="L279">        final int limiteStampa = 7;</span>
+<span class="fc" id="L280">        StringBuilder s = new StringBuilder();</span>
+<span class="fc" id="L281">        s.append(&quot;â”œâ”€â”€â”€â”€â”€&quot;);</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">        for (int i = 0; i &lt; limiteStampa; i++) {</span>
+<span class="fc" id="L283">            s.append(&quot;â”¼â”€â”€â”€â”€â”€&quot;);</span>
+        }
+<span class="fc" id="L285">        s.append(&quot;â”¤&quot;);</span>
+<span class="fc" id="L286">        return s.toString();</span>
+    }
+
+    private String stampaBordoBasso() {
+<span class="fc" id="L290">        final int limiteStampa = 7;</span>
+<span class="fc" id="L291">        StringBuilder s = new StringBuilder();</span>
+<span class="fc" id="L292">        s.append(&quot;â””â”€â”€â”€â”€â”€&quot;);</span>
+<span class="fc bfc" id="L293" title="All 2 branches covered.">        for (int i = 0; i &lt; limiteStampa; i++) {</span>
+<span class="fc" id="L294">            s.append(&quot;â”´â”€â”€â”€â”€â”€&quot;);</span>
+        }
+<span class="fc" id="L296">        s.append(&quot;â”˜&quot;);</span>
+<span class="fc" id="L297">        return s.toString();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
