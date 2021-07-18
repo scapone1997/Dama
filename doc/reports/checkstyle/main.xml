@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.8">
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\AppMain.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\Costanti\Colori.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\Costanti\Comandi.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\Costanti\Simboli.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\Dama\Campo.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\Dama\Casella.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\Dama\Giocatore.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\Dama\Gioco.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\Dama\Mossa.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\Dama\Pedina.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\Dama\ValidatoreMossa.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\InterfacciaUtente\ComunicazioneEsterna.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\main\java\it\uniba\main\InterfacciaUtente\LettoreComandi.java">
+</file>
+</checkstyle>

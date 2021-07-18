@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComunicazioneEsterna.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dama</a> &gt; <a href="index.source.html" class="el_package">it.uniba.main.InterfacciaUtente</a> &gt; <span class="el_source">ComunicazioneEsterna.java</span></div><h1>ComunicazioneEsterna.java</h1><pre class="source lang-java linenums">package it.uniba.main.InterfacciaUtente;
+
+import it.uniba.main.Costanti.Colori;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import it.uniba.main.Costanti.Simboli;
+import java.util.ArrayList;
+
+/**
+ *  &lt;&lt;Boundary&gt;&gt;
+ *  Classe contenente tutti i metodi di stampa e metodi che richiedono una interazione con l'utente
+ *  diversa dal un comando di gioco. La classe non deve essere istanziata, tutti i metodi sono di tipo static.
+ */
+
+public final class ComunicazioneEsterna {
+    //costruttore privato, classe non istaziabile
+    private ComunicazioneEsterna() { }
+
+    //messaggio iniziale di benvenuto
+    public static void benvenuto() {
+<span class="nc" id="L21">        System.out.println(&quot;Benvenuto nell'applicazione 'Dama italiana' del gruppo vijayashanker.&quot;);</span>
+<span class="nc" id="L22">        System.out.println(&quot;Il regolamento del gioco Ã¨ disponibile al seguente indirizzo: &quot;</span>
+                + &quot;http://www.fid.it/corsi/italiana/regole.htm&quot;);
+<span class="nc" id="L24">        System.out.println(&quot;Usa il comando 'help' per avere ulteriori informazioni sugli altri comandi.&quot;);</span>
+<span class="nc" id="L25">    }</span>
+
+    //help del programma. Breve descrizione e elenco dei comandi possibili
+    public static void help() {
+<span class="fc" id="L29">        System.out.println(&quot;Benvenuto nell'applicazione 'Dama italiana' del gruppo vijayashanker.&quot;);</span>
+<span class="fc" id="L30">        System.out.println(&quot;Il regolamento del gioco Ã¨ disponibile al seguente indirizzo: &quot;</span>
+                + &quot;http://www.fid.it/corsi/italiana/regole.htm&quot;);
+<span class="fc" id="L32">        System.out.println(&quot;I comandi possibili sono i seguenti:&quot;);</span>
+<span class="fc" id="L33">        System.out.println(&quot;# help          Richiama la descrizione dell'applicazione e l'elenco comandi.&quot;);</span>
+<span class="fc" id="L34">        System.out.println(&quot;# gioca         Avvia una nuova partita se nessun altra partita Ã¨ in corso.&quot;);</span>
+<span class="fc" id="L35">        System.out.println(&quot;# abbandona     Abbandona la partita in corso;&quot;</span>
+                + &quot;la vittoria sarÃ  automaticamente assegnata all'avversario.&quot;);
+<span class="fc" id="L37">        System.out.println(&quot;# esci          Esci dall'applicazione; la partita non verrÃ  salvata.&quot;);</span>
+<span class="fc" id="L38">        System.out.println(&quot;# numeri        Mostra la damiera con i numeri sulle caselle nere.&quot;);</span>
+<span class="fc" id="L39">        System.out.println(&quot;# prese         Mostra a video le prese della partita; se non c'Ã¨ una partita in corso,&quot;</span>
+                + &quot;suggerisce il comando gioca.&quot;);
+<span class="fc" id="L41">        System.out.println(&quot;# damiera       Mostra la damiera con la posizione attuale delle pedine; &quot;</span>
+                + &quot;se non c'Ã¨ una partita in corso, suggerisce il comando gioca.&quot;);
+<span class="fc" id="L43">        System.out.println(&quot;# tempo         Mostra il tempo di gioco dei giocatori;&quot;</span>
+                + &quot; se non c'Ã¨ una partita in corso, suggerisce il comando gioca.&quot;);
+<span class="fc" id="L45">        System.out.println(&quot;# mosse         Mostra tutte le mosse valide effettuate; &quot;</span>
+                + &quot;se non c'Ã¨ una partita in corso, suggerisce il comando gioca.&quot;);
+<span class="fc" id="L47">        System.out.println(&quot;Una volta avviata una partita, Ã¨ possibile muovere le pedine con la seguente notazione:&quot;);</span>
+<span class="fc" id="L48">        System.out.println(&quot;# &lt;casella&gt;-&lt;casella&gt;               Spostamento semplice (es: 1-5).&quot;);</span>
+<span class="fc" id="L49">        System.out.println(&quot;# &lt;casella&gt;x...x&lt;casella&gt;           Spostamento con presa (es: 1x10 oppure 1x10x19).&quot;);</span>
+<span class="fc" id="L50">    }</span>
+
+    //stampa percorso directory nella quale l'app Ã¨ eseguita
+    public static void currentWorkingDir() {
+<span class="nc" id="L54">        System.out.println(&quot;Current working dir: &quot; + System.getProperty(&quot;user.dir&quot;));</span>
+<span class="nc" id="L55">    }</span>
+
+    //suggerisce i flag -h o --help in caso di flag iniziale errato
+    public static void erroreFlag() {
+<span class="nc" id="L59">        System.out.println(&quot;Flag non riconosciuto. &quot;</span>
+                + &quot;Usa i flag '-h' oppure '--help' per visualizzare l'help del programma all'avvio.&quot;);
+<span class="nc" id="L61">    }</span>
+
+    //suggerisce di digitare 'gioca'
+    public static void suggerisciGioca() {
+<span class="nc" id="L65">        System.out.println(&quot;Nessuna partita in corso. Digitare 'gioca' per iniziare a giocare.&quot;);</span>
+<span class="nc" id="L66">    }</span>
+
+    // avvisa dell'inserimento di un comando non riconosciuto
+    public static void erroreComando() {
+<span class="fc" id="L70">        System.out.println(&quot;Comando non valido. &quot;);</span>
+<span class="fc" id="L71">    }</span>
+
+    // avvisa dell'inserimento di una mossa non riconosciuta
+    public static void erroreMossa() {
+<span class="fc" id="L75">        System.out.println(&quot;Mossa non valida. &quot;);</span>
+<span class="fc" id="L76">    }</span>
+
+    // avvisa della promozione di una pedina
+    public static void avvisoPromozione() {
+<span class="fc" id="L80">        System.out.println(&quot;Pedina promossa a Dama! &quot;);</span>
+<span class="fc" id="L81">    }</span>
+
+    //stampa un messaggio che indica l'avvio di una nuova partita
+    public static void avvioPartita() {
+<span class="nc" id="L85">        System.out.println(&quot;************* PARTITA AVVIATA *************&quot;);</span>
+<span class="nc" id="L86">    }</span>
+
+    //stampa un messaggio che indica la fine di una partita, annunciando il vincitore
+    public static void finePartita(final String vincitore) {
+<span class="fc" id="L90">        System.out.println(&quot;Partita terminata. Il vincitore Ã¨ il giocatore: &quot; + vincitore);</span>
+<span class="fc" id="L91">        System.out.println(&quot;************* PARTITA TERMINATA *************&quot;);</span>
+<span class="fc" id="L92">    }</span>
+
+    //stampa un messaggio indicante di chi Ã¨ il turno corrente nel gioco
+    public static void avvisoTurnoGiocatore(final String giocatore) {
+<span class="fc" id="L96">        System.out.println(&quot;E' il turno del giocatore &quot; + giocatore + &quot;: &quot;);</span>
+<span class="fc" id="L97">    }</span>
+
+    //stampa la damiera numerata
+    public static void numeri() {
+<span class="fc" id="L101">        System.out.println(&quot;â”Œâ”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”¬â”€â”€&quot;</span>
+                + &quot;â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”¬&quot;);
+<span class="fc" id="L103">        System.out.println(&quot;â”‚ &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 1 &quot; + Colori.ANSI_RESET</span>
+                + &quot; | &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 2 &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 3 &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 4 &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot;);
+<span class="fc" id="L112">        System.out.println(&quot;â”œâ”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€&quot;</span>
+                + &quot;â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¤&quot;);
+<span class="fc" id="L114">        System.out.println(&quot;â”‚ &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET</span>
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 5 &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 6 &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 7 &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 8 &quot; + Colori.ANSI_RESET + &quot; | &quot;);
+<span class="fc" id="L123">        System.out.println(&quot;â”œâ”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€&quot;</span>
+                + &quot;â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¤&quot;);
+<span class="fc" id="L125">        System.out.println(&quot;â”‚ &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 9 &quot; + Colori.ANSI_RESET</span>
+                + &quot; | &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 10 &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 11 &quot; + Colori.ANSI_RESET + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 12 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot;);
+<span class="fc" id="L134">        System.out.println(&quot;â”œâ”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€&quot;</span>
+                + &quot;â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¤&quot;);
+<span class="fc" id="L136">        System.out.println(&quot;â”‚ &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET</span>
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 13 &quot; + Colori.ANSI_RESET + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 14 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 15 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 16 &quot; + Colori.ANSI_RESET + &quot;| &quot;);
+<span class="fc" id="L145">        System.out.println(&quot;â”œâ”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€&quot;</span>
+                + &quot;â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¤&quot;);
+<span class="fc" id="L147">        System.out.println(&quot;â”‚ &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 17 &quot; + Colori.ANSI_RESET</span>
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 18 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 19 &quot; + Colori.ANSI_RESET + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 20 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot;);
+<span class="fc" id="L156">        System.out.println(&quot;â”œâ”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€&quot;</span>
+                + &quot;â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¤&quot;);
+<span class="fc" id="L158">        System.out.println(&quot;â”‚ &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET</span>
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 21 &quot; + Colori.ANSI_RESET + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 22 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 23 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 24 &quot; + Colori.ANSI_RESET + &quot;| &quot;);
+<span class="fc" id="L167">        System.out.println(&quot;â”œâ”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€&quot;</span>
+                + &quot;â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¤&quot;);
+<span class="fc" id="L169">        System.out.println(&quot;â”‚ &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 25 &quot; + Colori.ANSI_RESET</span>
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 26 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 27 &quot; + Colori.ANSI_RESET + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 28 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot;);
+<span class="fc" id="L177">        System.out.println(&quot;â”œâ”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€&quot;</span>
+                + &quot;â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”¤&quot;);
+<span class="fc" id="L179">        System.out.println(&quot;â”‚ &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET</span>
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 29 &quot; + Colori.ANSI_RESET + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET
+                + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 30 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND
+                + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND + &quot; 31 &quot; + Colori.ANSI_RESET
+                + &quot;| &quot; + Colori.ANSI_WHITE_BACKGROUND + &quot;   &quot; + Colori.ANSI_RESET + &quot; | &quot; + Colori.ANSI_BLACK_BACKGROUND
+                + &quot; 32 &quot; + Colori.ANSI_RESET + &quot;| &quot;);
+<span class="fc" id="L187">        System.out.println(&quot;â””â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”´â”€â”€â”€&quot;</span>
+                + &quot;â”€â”€â”´â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”˜&quot;);
+
+<span class="fc" id="L190">    }</span>
+
+    //metodo che legge le mosse registrate all'interno di registroMosse
+    public static void letturaRegistroMosse(final ArrayList&lt;String&gt; registroMosse) {
+<span class="fc" id="L194">        int i = 0;</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">        if (registroMosse.size() != 0) {</span>
+<span class="fc" id="L196">            System.out.println(&quot;Ecco lo storico delle mosse valide effetuate:&quot;);</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">            while (i != registroMosse.size()) {</span>
+<span class="fc" id="L198">                System.out.println(registroMosse.get(i));</span>
+<span class="fc" id="L199">                i++;</span>
+            }
+        } else {
+<span class="fc" id="L202">            System.out.println(&quot;Non sono ancora state effetuate mosse.&quot;);</span>
+        }
+<span class="fc" id="L204">    }</span>
+
+    //stampa la damiera
+    public static void damiera(final String damieraToString) {
+<span class="fc" id="L208">        System.out.println(damieraToString);</span>
+<span class="fc" id="L209">    }</span>
+
+    //metodo di uscita dall'applicazione
+    public static boolean confermaEsci() {
+
+<span class="nc" id="L214">        System.out.println(&quot;Sicuro di voler chiudere l'applicazione? Tutti i progressi verranno persi!&quot;);</span>
+<span class="nc" id="L215">        System.out.print(&quot;Digita 'si' per uscire, 'no' per annullare. &quot;);</span>
+<span class="nc" id="L216">        String risposta = LettoreComandi.getRisposta().toLowerCase(Locale.ROOT);</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">        while (risposta.compareTo(&quot;no&quot;) != 0) {</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">            if (risposta.compareTo(&quot;si&quot;) == 0) {</span>
+<span class="nc" id="L219">                System.out.println(&quot;Chiusura del programma... Alla prossima!&quot;);</span>
+<span class="nc" id="L220">                return true;</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">            } else if (risposta.compareTo(&quot;no&quot;) == 0) {</span>
+<span class="nc" id="L222">                System.out.println(&quot;Uscita annullata.&quot;);</span>
+            } else {
+<span class="nc" id="L224">                System.out.print(&quot;Risposta non valida. &quot;);</span>
+<span class="nc" id="L225">                System.out.print(&quot;Digita 'si' per uscire, 'no' per annullare. &quot;);</span>
+<span class="nc" id="L226">                risposta = LettoreComandi.getRisposta().toLowerCase(Locale.ROOT);</span>
+            }
+        }
+<span class="nc" id="L229">        return false;</span>
+    }
+
+    //metodo che permette l'abbandono della partita
+    public static boolean confermaAbbandono() {
+<span class="fc" id="L234">        boolean partitaFinita = false;</span>
+<span class="fc" id="L235">        System.out.println(&quot;Sei sicuro di voler abbandonare la partita? &quot;</span>
+                + &quot;La vittoria sarÃ  assegnata al tuo avversario!&quot;);
+<span class="fc" id="L237">        System.out.print(&quot;Digita 'si' per uscire, 'no' per annullare. &quot;);</span>
+<span class="fc" id="L238">        String risposta = LettoreComandi.getRisposta().toLowerCase(Locale.ROOT);</span>
+<span class="pc bpc" id="L239" title="1 of 4 branches missed.">        while (risposta.compareTo(&quot;si&quot;) != 0 &amp;&amp; risposta.compareTo(&quot;no&quot;) != 0) {</span>
+<span class="fc" id="L240">            System.out.print(&quot;Risposta non valida. &quot;);</span>
+<span class="fc" id="L241">            System.out.print(&quot;Digita 'si' per uscire, 'no' per annullare. &quot;);</span>
+<span class="fc" id="L242">            risposta = LettoreComandi.getRisposta().toLowerCase(Locale.ROOT);</span>
+        }
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">        if (risposta.compareTo(&quot;si&quot;) == 0) {</span>
+<span class="fc" id="L245">            partitaFinita = true;</span>
+        } else {
+<span class="nc" id="L247">            System.out.println(&quot;Abbandono annullato.&quot;);</span>
+        }
+<span class="fc" id="L249">        return partitaFinita;</span>
+    }
+
+    // stampa a schermo quale dei due giocatori ha abbandonato
+    public static void perdente(final String p) {
+<span class="fc" id="L254">        System.out.println(&quot;Giocatore &quot; + p + &quot; ha abbandonato la partita.&quot;);</span>
+<span class="fc" id="L255">    }</span>
+
+    //metodo che stampa il tempo di gioco dei giocatori in formato h:m:s
+    public static void stampaTempoGioco(final long tempoTrascorsoNeroInput, final long tempoTrascorsoBiancoInput) {
+        long oreT, minutiT;
+<span class="fc" id="L260">        long tempoTrascorsoNero = tempoTrascorsoNeroInput;</span>
+<span class="fc" id="L261">        long tempoTrascorsoBianco = tempoTrascorsoBiancoInput;</span>
+
+        //tempo gioco bianco
+<span class="fc" id="L264">        oreT = TimeUnit.SECONDS.toHours(tempoTrascorsoBianco); //prima estraggo le ore</span>
+        //sottraggo le ore(ritrasformate in secondi) a tempotrascorso
+<span class="fc" id="L266">        tempoTrascorsoBianco -= TimeUnit.HOURS.toSeconds(oreT);</span>
+<span class="fc" id="L267">        minutiT = TimeUnit.SECONDS.toMinutes(tempoTrascorsoBianco); //poi estraggo i minuti</span>
+        //sottraggo i minuti (ritrasformati in secondi) a tempotrascorso
+<span class="fc" id="L269">        tempoTrascorsoBianco -= TimeUnit.MINUTES.toSeconds(minutiT);</span>
+        //il rimanente saranno soltanto secondi
+<span class="fc" id="L271">        System.out.print(&quot;Tempo trascorso per il giocatore Bianco&quot;);</span>
+<span class="fc" id="L272">        System.out.print(&quot; &quot; + oreT + &quot;:&quot; + minutiT + &quot;:&quot; + tempoTrascorsoBianco + &quot;\n&quot;);</span>
+
+        //tempo gioco nero
+<span class="fc" id="L275">        oreT = TimeUnit.SECONDS.toHours(tempoTrascorsoNero);</span>
+<span class="fc" id="L276">        tempoTrascorsoNero -= TimeUnit.HOURS.toSeconds(oreT);</span>
+<span class="fc" id="L277">        minutiT = TimeUnit.SECONDS.toMinutes(tempoTrascorsoNero);</span>
+<span class="fc" id="L278">        tempoTrascorsoNero -= TimeUnit.MINUTES.toSeconds(minutiT);</span>
+<span class="fc" id="L279">        System.out.print(&quot;Tempo trascorso per il giocatore Nero&quot;);</span>
+<span class="fc" id="L280">        System.out.print(&quot; &quot; + oreT + &quot;:&quot; + minutiT + &quot;:&quot; + tempoTrascorsoNero + &quot;\n&quot;);</span>
+
+<span class="fc" id="L282">    }</span>
+
+    //controlla il numero di prese del bianco e per ognuna stampa un carattere
+    public static void stampaPreseDelBianco(final ArrayList&lt;String&gt; simboli) {
+<span class="fc" id="L286">        System.out.print(&quot;Prese del giocatore Bianco: &quot; + Colori.ANSI_BLACK);</span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">        for (int i = 0; i &lt; simboli.size(); i++) {</span>
+<span class="fc" id="L288">            System.out.print(Colori.ANSI_RED_BACKGROUND + Simboli.PEDINA_NERA + &quot; &quot;);</span>
+        }
+<span class="fc" id="L290">        System.out.println(Colori.ANSI_RESET);</span>
+<span class="fc" id="L291">    }</span>
+    //controlla il numero di prese del nero e per ognuna stampa un carattere
+    public static void stampaPreseDelNero(final ArrayList&lt;String&gt; simboli) {
+<span class="fc" id="L294">        System.out.print(&quot;Prese del giocatore Nero:   &quot; + Colori.ANSI_WHITE);</span>
+<span class="fc bfc" id="L295" title="All 2 branches covered.">        for (int i = 0; i &lt; simboli.size(); i++) {</span>
+<span class="fc" id="L296">            System.out.print(Colori.ANSI_RED_BACKGROUND + Simboli.PEDINA_BIANCA + &quot; &quot;);</span>
+        }
+<span class="fc" id="L298">        System.out.println(Colori.ANSI_RESET);</span>
+<span class="fc" id="L299">    }</span>
+
+    public static void avvisoPresa() {
+<span class="fc" id="L302">        System.out.println(&quot;Presa effettuata! &quot;);</span>
+<span class="fc" id="L303">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.8">
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\AppMainTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\Costanti\test\ColoriTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\Costanti\test\ComandiTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\Costanti\test\SimboliTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\Dama\test\CampoTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\Dama\test\CasellaTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\Dama\test\GiocatoreTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\Dama\test\GiocoTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\Dama\test\MossaTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\Dama\test\PedinaTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\Dama\test\ValidatoreMossaTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\InterfacciaUtente\test\ComunicazioneEsternaTest.java">
+</file>
+<file name="C:\Users\cgiac\progetto2021ter-vijayashanker\src\test\java\it\uniba\main\InterfacciaUtente\test\LettoreComandiTest.java">
+</file>
+</checkstyle>

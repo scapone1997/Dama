@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Casella.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dama</a> &gt; <a href="index.source.html" class="el_package">it.uniba.main.Dama</a> &gt; <span class="el_source">Casella.java</span></div><h1>Casella.java</h1><pre class="source lang-java linenums">package it.uniba.main.Dama;
+
+/**
+ *  &lt;&lt;Entity&gt;&gt;
+ *  La classe Casella rappresenta una generica cella della matrice che rappresenterÃ  il Campo.
+ *  Ha i seguenti attributi:
+ *  - codice: 0 per le caselle non valide, da 1 a 32 per le valide;
+ *  - x: coordinata di riga della Casella nel Campo
+ *  - y: coordinata di colonna della Casella nel Campo
+ *  - p: Pedina presente nella Casella, null se non Ã¨ presente
+ */
+
+public class Casella {
+
+    private int codice;
+    private int x;
+    private int y;
+    private Pedina p;
+
+<span class="fc" id="L20">    public Casella() {</span>
+<span class="fc" id="L21">        codice = 0;</span>
+<span class="fc" id="L22">        p = null;</span>
+<span class="fc" id="L23">    }</span>
+
+    public final int getCodice() {
+<span class="fc" id="L26">        return codice;</span>
+    }
+    public final void setCodice(final int pcodice) {
+<span class="fc" id="L29">        this.codice = pcodice;</span>
+<span class="fc" id="L30">    }</span>
+    public final int getX() {
+<span class="fc" id="L32">        return x;</span>
+    }
+    public final int getY() {
+<span class="fc" id="L35">        return y;</span>
+    }
+    public final void setX(final int px) {
+<span class="fc" id="L38">        this.x = px;</span>
+<span class="fc" id="L39">    }</span>
+    public final void setY(final int py) {
+<span class="fc" id="L41">        this.y = py;</span>
+<span class="fc" id="L42">    }</span>
+    public final  Pedina getP() {
+<span class="fc" id="L44">        return p;</span>
+    }
+    public final void setP(final Pedina pp) {
+<span class="fc" id="L47">        this.p = pp;</span>
+<span class="fc" id="L48">    }</span>
+//nota[CHECKSTYLE]: per evitare shadowing, si aggiunge un prefisso al parametro formale.
+//per convenzione si aggiunge la 'p'
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
